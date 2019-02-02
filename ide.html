@@ -59,7 +59,7 @@
                     #pastetext{ background: #fff; display: none; width: 100%; height: 100%; position: absolute; z-index: 9; top: 0; }
                     
                     .mode{ width: 40px; height: 40px; vertical-align: top; font-size: 100%; }
-                    
+                    .youtube{ position: absolute; z-index: 1000; width: 100%; height: 100%; background: #fff;}
                 </style>
                 <style include="glob-css"></style>
                 <style include="theme-css"></style>
@@ -90,8 +90,21 @@
                         <div class="icon paste select" on-click="changeFontSize">
                             &nbsp;<br>&nbsp;Font<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.
                         </div>
+                        <div class="icon paste select" on-click="changeTube">
+                            &nbsp;<br>&nbsp;yYob<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.
+                        </div>
                         <input type="text" class="mode" id="mode" on-keydown="changeMode" />
                     </div>
+                </div>
+                <div id="youtube" class="youtube">
+                    <div id="close" on-click="closeTube">Close</div>
+                    <div id="toggle" on-click="toggleTube">Toggle</div>
+                    <input type="text" id="tubeid" />
+                    <div class="icon paste select" on-click="tubeList">
+                        <br>&nbsp;yYob<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.
+                    </div>
+                    <div id="toggle"><iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list={{playlist}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+                    <div><iframe width="560" height="315" src="https://www.youtube.com/embed/{{tube}}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
                 </div>
                 
                 <div id="editor"></div>
@@ -109,6 +122,9 @@
                     pos: { type: Object, value: {} },
                     textrange: { type: String, value: "" },
                     font: { type: String, value: "1" },
+                },
+                toggleTube: function(){
+                    $(this.$.toggle).toggle();
                 },
                 ready: function(){
                     
@@ -145,6 +161,7 @@
                     
                     $(this.$.setting).hide();
                     $(this.$.keyboard).hide();
+                    $(this.$.youtube).hide();
                     
                     this.$.pastetext.addEventListener("paste", function(e){
                         
@@ -170,6 +187,21 @@
                         this.editor.setFontSize(15);
                     }
                     
+                },
+                
+                changeTube: function(){
+                    $(this.$.youtube).show();
+                },
+                
+                tubeList: function(){
+                    //alert("demo");
+                    var html = $(this.$.tubeid).val();
+                    this.playlist = html;
+                    this.tube = html;
+                },
+                
+                closeTube: function(){
+                    $(this.$.youtube).hide();
                 },
                 
                 showKeyboard: function(){
